@@ -1,8 +1,8 @@
 import React from 'react';
-import { useLocation } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 export default function Header() {
   const location = useLocation();
-  console.log(location);
+  const navigate = useNavigate();
   const pathCheckRoute = (route) => {
     if (route === location.pathname) {
       return true;
@@ -16,6 +16,7 @@ export default function Header() {
             src='https://static.rdc.moveaws.com/images/logos/rdc-logo-default.svg'
             alt='logo'
             className='h-5 cursor-pointer'
+            onClick={() => navigate('/')}
           />
         </div>
         <div>
@@ -23,18 +24,21 @@ export default function Header() {
             <li
               className={`cursor-pointer py-3 text-sm font-semibold text-gray-400 border-b-[3px] border-b-transparent 
               ${pathCheckRoute('/') && 'text-black border-b-red-500'}`}
+              onClick={() => navigate('/')}
             >
               Home
             </li>
             <li
               className={`cursor-pointer py-3 text-sm font-semibold text-gray-400 border-b-[3px] border-b-transparent 
               ${pathCheckRoute('/offers') && 'text-black border-b-red-500'}`}
+              onClick={() => navigate('/offers')}
             >
               Offers
             </li>
             <li
               className={`cursor-pointer py-3 text-sm font-semibold text-gray-400 border-b-[3px] border-b-transparent 
               ${pathCheckRoute('/sign-in') && 'text-black border-b-red-500'}`}
+              onClick={() => navigate('/sign-in')}
             >
               Sign in
             </li>
