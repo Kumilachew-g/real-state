@@ -1,7 +1,19 @@
 import { useState } from 'react';
+import Spinner from '../components/Spinner';
+import { toast } from 'react-toastify';
+import {
+  getStorage,
+  ref,
+  uploadBytesResumable,
+  getDownloadURL,
+} from 'firebase/storage';
+import { getAuth } from 'firebase/auth';
+import { v4 as uuidv4 } from 'uuid';
 
 export default function CreateListing() {
-  const [geolocationEnabled, setGeolocationEnabled] = useState(false);
+  const auth = getAuth();
+  const [geolocationEnabled, setGeolocationEnabled] = useState(true);
+  const [loading, setLoading] = useState(false);
   const [formData, setFormData] = useState({
     type: 'rent',
     name: '',
@@ -16,6 +28,7 @@ export default function CreateListing() {
     discountedPrice: 0,
     latitude: 0,
     longitude: 0,
+    images: {},
   });
   const {
     type,
@@ -31,6 +44,7 @@ export default function CreateListing() {
     discountedPrice,
     latitude,
     longitude,
+    images,
   } = formData;
   function onChange(e) {
     let boolean = null;
@@ -57,10 +71,75 @@ export default function CreateListing() {
       }));
     }
   }
+  async function onSubmit(e) {
+    e.preventDefault();
+    setLoading(true);
+    if (discountedPrice >= regularPrice) {
+      setLoading(false);
+      toast.error('Discounted price needs to be less than regular price');
+      return;
+    }
+    if (images.length > 6) {
+      setLoading(false);
+      toast.error('Maximum 6 images are allowed');
+      return;
+    }
+
+    async function storeImage(image) {
+      return new Promise((resolve, reject) => {
+        const storage = getStorage();
+        const fileName = `${auth.currentUser.uid}-${image.name}-${uuidv4()}`;
+        const storageRef = ref(storage, fileName);
+        const uploadTask = uploadBytesResumable(storageRef, image);
+        uploadTask.on(
+          'state_changed',
+          (snapshot) => {
+            // Observe state change events such as progress, pause, and resume
+            // Get task progress, including the number of bytes uploaded and the total number of bytes to be uploaded
+            const progress =
+              (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
+            console.log('Upload is ' + progress + '% done');
+            switch (snapshot.state) {
+              case 'paused':
+                console.log('Upload is paused');
+                break;
+              case 'running':
+                console.log('Upload is running');
+                break;
+            }
+          },
+          (error) => {
+            // Handle unsuccessful uploads
+            reject(error);
+          },
+          () => {
+            // Handle successful uploads on complete
+            // For instance, get the download URL: https://firebasestorage.googleapis.com/...
+            getDownloadURL(uploadTask.snapshot.ref).then((downloadURL) => {
+              resolve(downloadURL);
+            });
+          }
+        );
+      });
+    }
+
+    const imageUrls = await Promise.all(
+      [...images].map((image) => storeImage(image))
+    ).catch((errors) => {
+      setLoading(false);
+      toast.error('Images not uploaded');
+      return;
+    });
+    console.log(imageUrls);
+  }
+
+  if (loading) {
+    return <Spinner />;
+  }
   return (
-    <main>
+    <main className='max-w-md px-2 mx-auto'>
       <h1 className='text-3xl text-center mt-6 font-bold'>Create Listing</h1>
-      <form className='max-w-md px-2 mx-auto'>
+      <form onSubmit={onSubmit}>
         <p className='text-lg mt-6 font-semibold'>Sell / Rent</p>
         <div className='flex'>
           <button
