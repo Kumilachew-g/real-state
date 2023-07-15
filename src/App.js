@@ -25,10 +25,10 @@ function App() {
           <Route path='/sign-up' element={<SignUp />} />
           <Route path='/forgot-password' element={<ForgotPassword />} />
           <Route path='/offers' element={<Offers />} />
-          <Route path='*' element={<NotFoundPage />} />
           <Route path='create-listing' element={<PrivateRoute />}>
             <Route path='/create-listing' element={<CreateListing />} />
           </Route>
+          <Route path='*' element={<NotFoundPage />} />
         </Routes>
       </Router>
       <ToastContainer
