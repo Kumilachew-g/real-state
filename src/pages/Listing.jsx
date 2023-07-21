@@ -83,7 +83,7 @@ export default function Listing() {
       <div className='m-4 flex flex-col md:flex-row max-w-6xl lg:mx-auto p-4 rounded-lg shadow-lg bg-white lg:space-x-5'>
         <div className='w-full h-[200px] lg-[400px]'>
           <p className='text-2xl font-bold mb-3 text-blue-900'>
-            {listing.name} - $
+            {listing.name} - ${''}
             {listing.offer
               ? listing.discountedPrice
                   .toString()
@@ -111,27 +111,25 @@ export default function Listing() {
           <p className='mt-3 mb-3'>
             <span className='font-semibold'>Description -</span>
             {listing.description}
-            <ul className='flex items-center space-x-2 sm:space-x-10 text-sm font-semibold'>
-              <li className='flex items-center whitespace-nowrap'>
-                <FaBed className='text-lg mr-1' />
-                {+listing.bedrooms > 1 ? `${listing.bedrooms} Beds` : '1 Bed'}
-              </li>
-              <li className='flex items-center whitespace-nowrap'>
-                <FaBath className='text-lg mr-1' />
-                {+listing.bathrooms > 1
-                  ? `${listing.bathrooms} Baths`
-                  : '1 Bath'}
-              </li>
-              <li className='flex items-center whitespace-nowrap'>
-                <FaParking className='text-lg mr-1' />
-                {+listing.parking ? 'Parking spot' : 'No Parking'}
-              </li>
-              <li className='flex items-center whitespace-nowrap'>
-                <FaChair className='text-lg mr-1' />
-                {+listing.furnished ? 'Furnished' : 'Not furnished'}
-              </li>
-            </ul>
           </p>
+          <ul className='flex items-center space-x-2 sm:space-x-10 text-sm font-semibold'>
+            <li className='flex items-center whitespace-nowrap'>
+              <FaBed className='text-lg mr-1' />
+              {+listing.bedrooms > 1 ? `${listing.bedrooms} Beds` : '1 Bed'}
+            </li>
+            <li className='flex items-center whitespace-nowrap'>
+              <FaBath className='text-lg mr-1' />
+              {+listing.bathrooms > 1 ? `${listing.bathrooms} Baths` : '1 Bath'}
+            </li>
+            <li className='flex items-center whitespace-nowrap'>
+              <FaParking className='text-lg mr-1' />
+              {+listing.parking ? 'Parking spot' : 'No Parking'}
+            </li>
+            <li className='flex items-center whitespace-nowrap'>
+              <FaChair className='text-lg mr-1' />
+              {+listing.furnished ? 'Furnished' : 'Not furnished'}
+            </li>
+          </ul>
         </div>
         <div className='bg-blue-300 w-full h-[200px] lg-[400px] z-10 overflow-x-hidden'></div>
       </div>
