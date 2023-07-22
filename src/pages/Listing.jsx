@@ -1,6 +1,6 @@
 import { doc, getDoc } from 'firebase/firestore';
 import React, { useEffect, useState } from 'react';
-import { useAsyncError, useParams } from 'react-router';
+import { useParams } from 'react-router';
 import { db } from '../firebase';
 import Spinner from '../components/Spinner';
 import { Swiper, SwiperSlide } from 'swiper/react';
