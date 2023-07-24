@@ -48,7 +48,7 @@ export default function Slider() {
           navigation
           pagination={{ type: 'progressbar' }}
           effect='fade'
-          modules={{ EffectFade }}
+          modules={[EffectFade]}
           autoplay={{ delay: 3000 }}
         >
           {listings.map(({ data, id }) => (
