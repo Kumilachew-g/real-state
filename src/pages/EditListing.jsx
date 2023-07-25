@@ -9,22 +9,14 @@ import {
 } from 'firebase/storage';
 import { getAuth } from 'firebase/auth';
 import { v4 as uuidv4 } from 'uuid';
-import {
-  addDoc,
-  collection,
-  doc,
-  getDoc,
-  serverTimestamp,
-  updateDoc,
-} from 'firebase/firestore';
+import { doc, getDoc, serverTimestamp, updateDoc } from 'firebase/firestore';
 import { db } from '../firebase';
 import { useNavigate, useParams } from 'react-router-dom';
-import { async } from 'q';
-import { func } from 'prop-types';
 
 export default function CreateListing() {
   const navigate = useNavigate();
   const auth = getAuth();
+  // eslint-disable-next-line
   const [geolocationEnabled, setGeolocationEnabled] = useState(true);
   const [loading, setLoading] = useState(false);
   const [listing, setListing] = useState(null);
@@ -159,6 +151,7 @@ export default function CreateListing() {
             const progress =
               (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
             console.log('Upload is ' + progress + '% done');
+            // eslint-disable-next-line default-case
             switch (snapshot.state) {
               case 'paused':
                 console.log('Upload is paused');
