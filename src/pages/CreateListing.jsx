@@ -16,6 +16,7 @@ import { useNavigate } from 'react-router-dom';
 export default function CreateListing() {
   const navigate = useNavigate();
   const auth = getAuth();
+  // eslint-disable-next-line
   const [geolocationEnabled, setGeolocationEnabled] = useState(true);
   const [loading, setLoading] = useState(false);
   const [formData, setFormData] = useState({
@@ -123,6 +124,7 @@ export default function CreateListing() {
             const progress =
               (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
             console.log('Upload is ' + progress + '% done');
+            // eslint-disable-next-line default-case
             switch (snapshot.state) {
               case 'paused':
                 console.log('Upload is paused');

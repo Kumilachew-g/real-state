@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { getAuth, updateProfile } from 'firebase/auth';
 import { useNavigate } from 'react-router';
 import { toast } from 'react-toastify';
@@ -6,7 +6,6 @@ import {
   collection,
   deleteDoc,
   doc,
-  getDoc,
   getDocs,
   orderBy,
   query,
@@ -17,7 +16,6 @@ import { db } from '../firebase';
 import { FcHome } from 'react-icons/fc';
 import { Link } from 'react-router-dom';
 import ListingItem from '../components/ListingItem';
-import { func } from 'prop-types';
 
 export default function Profile() {
   const auth = getAuth();
